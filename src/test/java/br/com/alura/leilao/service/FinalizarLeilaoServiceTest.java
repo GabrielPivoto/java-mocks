@@ -20,15 +20,15 @@ import static org.junit.jupiter.api.Assertions.*;
 class FinalizarLeilaoServiceTest {
 
     private FinalizarLeilaoService service;
-
-
     @Mock
     private LeilaoDao dao;
+    @Mock
+    private EnviadorDeEmails enviadorDeEmails;
 
     @BeforeEach
     public void beforeEach(){
         MockitoAnnotations.initMocks(this);
-        this.service = new FinalizarLeilaoService(dao);
+        this.service = new FinalizarLeilaoService(dao,enviadorDeEmails);
     }
 
     @Test
@@ -42,6 +42,19 @@ class FinalizarLeilaoServiceTest {
         Assertions.assertTrue(leilao.isFechado());
         Assertions.assertEquals(new BigDecimal("900"),leilao.getLanceVencedor().getValor());
         Mockito.verify(dao).salvar(leilao);
+    }
+    @Test
+    void deveriaEnviarEmailParaVencedorDoLeilao(){
+        List<Leilao> leiloes = leiloes();
+
+        Mockito.when(dao.buscarLeiloesExpirados()).thenReturn(leiloes);
+
+        service.finalizarLeiloesExpirados();
+
+        Leilao leilao = leiloes.get(0);
+        Lance lanceVencedor = leilao.getLanceVencedor();
+
+        Mockito.verify(enviadorDeEmails).enviarEmailVencedorLeilao(lanceVencedor);
     }
 
     private List<Leilao> leiloes() {
