@@ -6,11 +6,13 @@ import br.com.alura.leilao.model.Lance;
 import br.com.alura.leilao.model.Leilao;
 import br.com.alura.leilao.model.Pagamento;
 import br.com.alura.leilao.model.Usuario;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +40,7 @@ class GeradorDePagamentoTest {
         Mockito.verify(dao).salvar(captor.capture()); // captor.capture() captura o objeto passado como parametro
 
         Pagamento pagamento = captor.getValue(); // captor.getValue() devolve o objeto capturado
+        Assertions.assertEquals(LocalDate.now().plusDays(1),pagamento.getVencimento());
     }
 
     private Leilao leilao() {
