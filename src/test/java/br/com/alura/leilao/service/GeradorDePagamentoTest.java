@@ -6,6 +6,7 @@ import br.com.alura.leilao.model.Lance;
 import br.com.alura.leilao.model.Leilao;
 import br.com.alura.leilao.model.Pagamento;
 import br.com.alura.leilao.model.Usuario;
+import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,6 +42,7 @@ class GeradorDePagamentoTest {
 
         Pagamento pagamento = captor.getValue(); // captor.getValue() devolve o objeto capturado
         Assertions.assertEquals(LocalDate.now().plusDays(1),pagamento.getVencimento());
+        Assertions.assertEquals(lanceVencedor.getValor(), pagamento.getValor());
     }
 
     private Leilao leilao() {
