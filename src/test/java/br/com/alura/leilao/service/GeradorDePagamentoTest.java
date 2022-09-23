@@ -45,6 +45,7 @@ class GeradorDePagamentoTest {
         Assertions.assertEquals(lanceVencedor.getValor(), pagamento.getValor());
         Assertions.assertFalse(pagamento.getPago());
         Assertions.assertEquals(pagamento.getUsuario(),lanceVencedor.getUsuario());
+        Assertions.assertEquals(leilao,pagamento.getLeilao());
     }
 
     private Leilao leilao() {
