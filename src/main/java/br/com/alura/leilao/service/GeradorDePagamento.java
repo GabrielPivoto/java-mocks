@@ -1,5 +1,6 @@
 package br.com.alura.leilao.service;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,17 @@ public class GeradorDePagamento {
 
 	public void gerarPagamento(Lance lanceVencedor) {
 		LocalDate vencimento = LocalDate.now().plusDays(1);
-		Pagamento pagamento = new Pagamento(lanceVencedor, vencimento);
+		Pagamento pagamento = new Pagamento(lanceVencedor, proximoDiaUtil(vencimento));
 		this.pagamentos.salvar(pagamento);
+	}
+
+	private LocalDate proximoDiaUtil(LocalDate dataBase){
+		DayOfWeek diaDaSemana = dataBase.getDayOfWeek();
+		if(diaDaSemana == DayOfWeek.SATURDAY)
+			return dataBase.plusDays(2);
+		else if(diaDaSemana == DayOfWeek.SUNDAY)
+			return dataBase.plusDays(1);
+		return dataBase;
 	}
 
 }
