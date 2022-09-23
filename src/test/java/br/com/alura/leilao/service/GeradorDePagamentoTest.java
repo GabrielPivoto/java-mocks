@@ -43,6 +43,7 @@ class GeradorDePagamentoTest {
         Pagamento pagamento = captor.getValue(); // captor.getValue() devolve o objeto capturado
         Assertions.assertEquals(LocalDate.now().plusDays(1),pagamento.getVencimento());
         Assertions.assertEquals(lanceVencedor.getValor(), pagamento.getValor());
+        Assertions.assertFalse(pagamento.getPago());
     }
 
     private Leilao leilao() {
